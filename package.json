@@ -1,0 +1,33 @@
+{
+  "name": "@abusufiyans/ispeed",
+  "version": "1.0.0",
+  "description": "A live terminal internet speed test powered by Cloudflare.",
+  "license": "MIT",
+  "type": "module",
+  "os": ["darwin"],
+  "bin": {
+    "ispeed": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "babel src --out-dir dist --extensions .js,.jsx --source-maps && node -e \"import('node:fs').then(fs => fs.chmodSync('dist/index.js', 0o755))\"",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@cloudflare/speedtest": "^1.14.1",
+    "ink": "^5.1.0",
+    "react": "^18.3.1",
+    "undici": "^6.29.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.27.0",
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1"
+  }
+}
