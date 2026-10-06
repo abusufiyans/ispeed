@@ -87,12 +87,24 @@ if (originalFetch && !globalThis.__ispeedFetchShim) {
   globalThis.__ispeedFetchShim = true;
   const originalGetEntriesByName = performance.getEntriesByName.bind(performance);
   const originalClearResourceTimings = performance.clearResourceTimings.bind(performance);
-  performance.getEntriesByName = (name, type) => (
-    timings.has(name) ? timings.get(name) : originalGetEntriesByName(name, type)
-  );
-  performance.clearResourceTimings = () => {
-    originalClearResourceTimings();
-  };
+  // Node 18 exposes these Performance methods as non-writable, so plain assignment throws there
+  // (newer Node allows it). Defining them as own properties works on every version.
+  Object.defineProperty(performance, "getEntriesByName", {
+    value: (name, type) => (
+      timings.has(name) ? timings.get(name) : originalGetEntriesByName(name, type)
+    ),
+    writable: true,
+    configurable: true,
+    enumerable: true
+  });
+  Object.defineProperty(performance, "clearResourceTimings", {
+    value: () => {
+      originalClearResourceTimings();
+    },
+    writable: true,
+    configurable: true,
+    enumerable: true
+  });
   globalThis.fetch = async (input, init = {}) => {
     const started = performance.now();
     const direction = bandwidthDirection(String(input?.url || input));
