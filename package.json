@@ -1,10 +1,10 @@
 {
   "name": "@abusufiyans/ispeed",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A live terminal internet speed test powered by Cloudflare.",
   "license": "MIT",
   "type": "module",
-  "os": ["darwin"],
+  "os": ["darwin", "win32"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/abusufiyans/ispeed.git"
@@ -20,11 +20,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "babel src --out-dir dist --extensions .js,.jsx --source-maps && node -e \"import('node:fs').then(fs => fs.chmodSync('dist/index.js', 0o755))\"",
+    "build": "babel src --out-dir dist --extensions .js,.jsx && node -e \"import('node:fs').then(fs => fs.chmodSync('dist/index.js', 0o755))\"",
     "prepublishOnly": "npm run build"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=18.19.1"
   },
   "dependencies": {
     "@cloudflare/speedtest": "^1.14.1",

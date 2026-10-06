@@ -2,13 +2,15 @@
 
 A live internet speed test for your terminal, measured against Cloudflare's edge network.
 
-> **macOS only for now.** This release targets macOS, so `npm install` will fail with an unsupported-platform error (`EBADPLATFORM`) on Windows and Linux. Support for both is coming soon.
+> **macOS and Windows.** Linux support is coming soon. Until then, `npm install` will fail on Linux with an unsupported-platform error (`EBADPLATFORM`).
 
 ## Install
 
 ```sh
 npm install -g @abusufiyans/ispeed
 ```
+
+On Windows, if PowerShell says running scripts is disabled when you type `ispeed`, either run it from Command Prompt or allow local scripts with `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
 
 ## Usage
 
@@ -40,7 +42,7 @@ The help screen also shows a colour key, the thresholds behind each quality rati
 - **Latency and jitter.** Ping is the median of 20 probes taken before the bandwidth phases, so it reflects an idle connection. Jitter is the average change between consecutive probes.
 - **Wire-level throughput.** Speed is every byte transferred over parallel streams, divided by elapsed time, rather than a sum of per-request rates.
 - **Quality rating.** Each finished run gets a rating from Bad to Excellent, built from three 1 to 5 scores: speed, response (ping) and stability (jitter). The thresholds are listed in the help screen.
-- **History.** Every completed run is appended to `~/.ispeed/history.json` as `{ timestamp, download, upload, ping, jitter }`. Each new run is compared with the previous one, with the change shown as a percentage, and the dashboard shows a trend line across your past runs.
+- **History.** Every completed run is appended to `~/.ispeed/history.json` (on Windows, `%USERPROFILE%\.ispeed\history.json`) as `{ timestamp, download, upload, ping, jitter }`. Each new run is compared with the previous one, with the change shown as a percentage, and the dashboard shows a trend line across your past runs.
 - **Cloudflare edge detection.** The header shows which Cloudflare location you are connected to.
 - **Adapts to the terminal.** The layout resizes with the window and reduces detail on smaller terminals. 80×24 or larger is recommended. Resizing, including a window being tiled or snapped, redraws once rather than flickering.
 - **Clean exit.** Quitting by any route (`q`, `ctrl+c`, a signal, or a crash) restores your terminal and leaves nothing behind on screen.
@@ -50,8 +52,9 @@ A run transfers roughly 40 MB (20 MB down, 20 MB up). On a slower connection it 
 
 ## Requirements
 
-- Node.js 18 or newer
-- macOS. This release supports macOS only. Windows and Linux support is coming soon.
+- Node.js 18.19.1 or newer
+- macOS or Windows. Linux support is coming soon.
+- Tested on macOS and on Windows 11 (PowerShell and Command Prompt).
 - A terminal with Unicode support. True color is recommended.
 
 ## License
